@@ -3,6 +3,7 @@
 
 Matrix::Matrix(unsigned int n, unsigned int m ):_n(n),_m(m)
 {
+    //initializeing
     _matrix = new float*[n];
     for(unsigned int i = 0; i < n; i++)
     {

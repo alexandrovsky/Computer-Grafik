@@ -1,6 +1,9 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <iostream>
+
+
 /*
  * A simple Matrix class for n x m floating point matrices
  */
@@ -29,6 +32,11 @@ public:
     inline unsigned int m(){
         return _m;
     }
+//    inline Matrix getMatrix()
+//    {
+//        return _matrix;
+//    }
+
 protected:
     float**_matrix;
     unsigned int _n;

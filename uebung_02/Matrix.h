@@ -1,12 +1,10 @@
 #ifndef MATRIX_H
 #define MATRIX_H
-
 #include <iostream>
-
-
 /*
  * A simple Matrix class for n x m floating point matrices
  */
+
 class Matrix
 {
 public:
@@ -24,28 +22,28 @@ public:
     const Matrix& operator *= ( float s ); // matrix - scalar multiplication: this * s
 
     void print(); // print matrix to standard output device (usually the console)
-
-    inline unsigned int n(){
+    inline unsigned int n() const
+    {
         return _n;
     }
-
-    inline unsigned int m(){
+    inline unsigned int m() const
+    {
         return _m;
     }
-//    inline Matrix getMatrix()
-//    {
-//        return _matrix;
-//    }
-
+    inline float** matrix() const
+    {
+        return _matrix;
+    }
 protected:
-    float**_matrix;
+          // choose an appropriate representation for the matrix class
+    float** _matrix;
     unsigned int _n;
     unsigned int _m;
 };
 
-Matrix operator + ( const Matrix& lhs, const Matrix& rhs ); // add the two matrices lhs and rhs and return a new matrix
-Matrix operator - ( const Matrix& lhs, const Matrix& rhs ); // subtract the two matrices lhs and rhs and return a new matrix
-Matrix operator * ( const Matrix& lhs, const Matrix& rhs ); // multiply the two matrices lhs and rhs and return a new matrix
-Matrix operator * ( const Matrix& m, float s ); // multiply the matrix m by the scalar s and return a new matrix
+//Matrix operator + ( const Matrix& lhs, const Matrix& rhs ); // add the two matrices lhs and rhs and return a new matrix
+//Matrix operator - ( const Matrix& lhs, const Matrix& rhs ); // subtract the two matrices lhs and rhs and return a new matrix
+//Matrix operator * ( const Matrix& lhs, const Matrix& rhs ); // multiply the two matrices lhs and rhs and return a new matrix
+//Matrix operator * ( const Matrix& m, float s ); // multiply the matrix m by the scalar s and return a new matrix
 
 #endif // MATRIX_H

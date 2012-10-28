@@ -1,126 +1,91 @@
 #include "Matrix.h"
 
 
-Matrix::Matrix(unsigned int n, unsigned int m ):_n(n),_m(m)
+Matrix::Matrix( unsigned int n, unsigned int m ) // prepare to use n rows and m columns (memory allocation ....)
 {
-    //initializeing
-    _matrix = new float*[n];
-    for(unsigned int i = 0; i < n; i++)
-    {
-        _matrix[i] = new float[m];
+    _n = n;
+    _m = m;
+    _matrix = new float*[_n];
+    for(int i = 0; i < _n ; i++){
+        _matrix[i] = new float[_m];
     }
 }
-
-Matrix::Matrix( const Matrix& m )
+Matrix::Matrix( const Matrix& m ) // copy constructor
 {
-    //this = m;
-
-
+    _m = m.m();
+    _n = m.n();
+    _matrix = m.matrix();
 }
 
-Matrix::~Matrix()
+Matrix::~Matrix()	// destructor
 {
-    for(unsigned int i = 0; i < _n;i++)
-    {
-        delete [] _matrix[i];
+    for(int i = 0; i < _n ; i++){
+        delete _matrix[i];
     }
-    delete []_matrix;
+    delete _matrix;
 }
 
-float *Matrix::operator [] ( unsigned int i ) // index operator to access a row
-{
-#warning not finished!
-    return 0.0;
-}
-const Matrix& Matrix::operator = ( const Matrix& m ) // assign operator from Matrix m to current matrix (this)
-{
-    Matrix* tmp = new Matrix(const_cast<unsigned int> (m.n()), const_cast<unsigned int> (m.m()));
-    memcpy(tmp->_matrix, m._matrix,sizeof(float)*m.n()*m.m());
-    return tmp;
-}
+//float *operator [] ( unsigned int i ); // index operator to access a row
+//const Matrix& operator = ( const Matrix& m ); // assign operator from Matrix m to current matrix (this)
 
 const Matrix& Matrix::operator += ( const Matrix& m ) // add m to current matrix element wise
 {
-    return NULL;
+    if(m.m() == _m && m.n() == _n)
+    {
+        float **buffer;
+        buffer = m.matrix();
+        for(int i = 0; i < _n; i++)
+        {
+            for(int j = 0; j < _m; j++)
+            {
+                _matrix[i][j] += buffer[i][j];
+            }
+        }
+        for(int i = 0; i < _n ; i++){
+            delete buffer[i];
+        }
+        delete buffer;
+    }
+    else
+    {
+        std::cout << "your matrices are not the same Size" << std::endl;
+    }
 }
+
 const Matrix& Matrix::operator -= ( const Matrix& m ) // subtract m to current matrix element wise
 {
-    return NULL;
-}
-const Matrix& Matrix::operator *= ( const Matrix& m ) // matrix-matrix multiplication: this * m
-{
-    return NULL;
-}
-const Matrix& Matrix::operator *= ( float s ) // matrix - scalar multiplication: this * s
-{
-    return NULL;
-}
-
-void Matrix::print(){} // print matrix to standard output device (usually the console)
-
-
-
-// general matrix operations
-
-Matrix operator + ( const Matrix& lhs, const Matrix& rhs ) // add the two matrices lhs and rhs and return a new matrix
-{
-    if(lhs.n() == rhs.n() && lhs.m() == rhs.m())
+    if(m.m() == _m && m.n() == _n)
     {
-        unsigned int m = lhs.m();
-        unsigned int n = lhs.n();
-        //initialize new matrix
-        float **_matrix = new float*[n];
-        for(unsigned int i = 0; i < n; i++)
+        float **buffer;
+        buffer = m.matrix();
+        for(int i = 0; i < _n; i++)
         {
-            _matrix[i] = new float[m];
-        }
-        //adding both matrices
-        for(unsigned int j = 0 ; j < n ; j++)
-        {
-            for(unsigned int i = 0; i < m; i++)
+            for(int j = 0; j < _m; j++)
             {
-                float value = (lhs.getMatrix().[j][i] + rhs.getMatrix().[j][i]);
-                _matrix[j][i] = value;
+                _matrix[i][j] -= buffer[i][j];
             }
         }
-        return _matrix;
+        for(int i = 0; i < _n ; i++){
+            delete buffer[i];
+        }
+        delete buffer;
     }
     else
     {
-        std::cout << "the two matrices are not the same dimensions" << std::endl;
+        std::cout << "your matrices are not the same Size" << std::endl;
     }
-
 }
-Matrix operator - ( const Matrix& lhs, const Matrix& rhs ) // subtract the two matrices lhs and rhs and return a new matrix
+
+//const Matrix& operator *= ( const Matrix& m ); // matrix-matrix multiplication: this * m
+//const Matrix& operator *= ( float s ); // matrix - scalar multiplication: this * s
+
+void Matrix::print() // print matrix to standard output device (usually the console)
 {
-    if(lhs.n() == rhs.n() && lhs.m() == rhs.m())
-    {
-        unsigned int m = lhs.m();
-        unsigned int n = lhs.n();
-        //initialize new matrix
-        float **_matrix = new float*[n];
-        for(unsigned int i = 0; i < n; i++)
+    for(int i = 0; i < _n ; i++){
+        for(int j = 0; j < _m ;j++ )
         {
-            _matrix[i] = new float[m];
+            std::cout << _matrix[i][j] << "  ";
         }
-        //adding both matrices
-        for(unsigned int j = 0 ; j < n ; j++)
-        {
-            for(unsigned int i = 0; i < m; i++)
-            {
-                float value = (lhs.getMatrix().[j][i] + rhs.getMatrix().[j][i]);
-                _matrix[j][i] = value;
-            }
-        }
-        return **_matrix;
+        std::cout << std::endl;
     }
-    else
-    {
-        std::cout << "the two matrices are not the same dimensions" << std::endl;
-    }
-
 }
-Matrix operator * ( const Matrix& lhs, const Matrix& rhs ); // multiply the two matrices lhs and rhs and return a new matrix
-Matrix operator * ( const Matrix& m, float s ); // multiply the matrix m by the scalar s and return a new matrix
-
-

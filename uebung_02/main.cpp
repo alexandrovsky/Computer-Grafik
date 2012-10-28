@@ -1,10 +1,13 @@
-#include <iostream>
-
-using namespace std;
-
-int main()
+#include "Matrix.h"
+#include "Vec3.h"
+Matrix *m;
+int main(int argc, char** argv)
 {
-    cout << "Hello World!" << endl;
+    m = new Matrix(5,5);
+    m->print();
+
+    // unit test
+
     return 0;
 }
 

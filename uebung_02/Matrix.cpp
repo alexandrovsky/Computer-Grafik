@@ -12,9 +12,8 @@ Matrix::Matrix( unsigned int n, unsigned int m ) // prepare to use n rows and m 
 }
 Matrix::Matrix( const Matrix& m ) // copy constructor
 {
-    _m = m.m();
-    _n = m.n();
-    _matrix = m.matrix();
+    Matrix(m.m(), m.n());
+    memcpy(_matrix, m._matrix,sizeof(float)*_m*_n);
 }
 
 Matrix::~Matrix()	// destructor
